@@ -1,0 +1,61 @@
+=================
+クリックの動作確認
+=================
+
+1.buttonをクリックしてincrementメソッドを実行
+2.setStateメソッドでstate.countを更新
+3.setStateの更新後、renderメソッドが実行され、コンポーネントが再描画される
+
+
+
+~~~~~~~~~~~ this　~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.this.handleClick = this.handleClick.bind(this); bind(this)を使って確定   これが一番わかりやすい印象y
+2.パブリッククラスフィールド構文
+3.render内のアロー関数を使ってthisを引き継ぐ
+
+
+
+===================
+リストの作成
+===================
+・Reactでリストを作成する場合は、データが格納されている配列のmapメソッドを使ってＪＳＸが格納された配列を創る
+・リストはユニークなkeyにする必要がある
+EX)
+function App() {
+    /初めにcommentsを定義/
+  const comments = [
+    { id: 1, text: "morning" },
+    { id: 2, text: "afternoon" },
+    { id: 3, text: "night" }
+  ];
+  　/次にcommentsを格納したcommentItemsをmap関数として定義（配列だから）/
+  const commentItems = comments.map((comments) => {
+    return <li key={comments.id}>{comments.text}</li>
+  });
+  　/最期にJSXの形にした{commentsItems}をreturnに埋め込む/
+  return (
+    <div>
+      <h1>リスト表示</h1>
+      <ul>{commentItems}</ul>
+    </div>
+  );
+}
+
+================================================
+子コンポーネントから親コンポーネントの関数を実行する
+================================================
+
+
+1.App.jsのreturnでonClickHandler={onClickButton}をbuttonに渡している。
+
+renderメソッド内でonClickが実行される　ボタンが押されたとき
+ ↓
+  ButtonコンポーネントのonClickHandlerが実行されて
+ ↓
+  App.jsのonClickHandler={onClickButton}が実行されて
+ ↓
+  それはつまり,onClickButtonが実行される
+
+  OnClickButtonの引数の(value)にthis.props.onClickHandlerの('Buttonコンポーネントからの値');が渡ってくる
+  console.logで出力される
+

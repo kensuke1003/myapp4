@@ -1,0 +1,193 @@
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+work
+＝＝＝＝＝＝＝＝＝＝＝＝－＝
+1. create-react-appで環境構築
+2. src ディレクトリの中を'App.js'と'index.js'だけにする　不要なファイルを削除
+3. 'App.js'と'index.js'が動くように不要なコードを削除
+4. srcディレクトリの中に'components'ディレクトリを作成
+5. srcディレクトリ内にある'App.js'を'components'ディレクトリの中に入れる
+6. 'components'ディレクトリ内に'App.css'を作成し'App.js'から'App.css'を読み込ムコードを書く
+7. npm start を実行してchromeにて実行出来ているかを確認
+
+App,js
+import './App.css
+
+function App() {
+  return (
+    <div className="App-container">
+      <h1 className="App-title">Hello,World!</h1>
+      <p>こんにちは世界！</p>
+
+    </div>
+  );
+}
+
+index,js
+import App from './components/App';
+
+
+====================
+props
+====================
+・コンポーネント使用時にそのコンポーネントに対して外からデータを渡せる仕組み。
+
+・HTMLのタグの「属性＝”属性値”」の部分が
+　　　　「prop名="prop値"」となる
+・props経由で受け取った値はReactのルール的に上書きしてはいけない/読み取り専用なので
+・上書きしたい場合はStateを使用する
+
+
+例）関数コンポーネント
+・「title="タイトル1"」をセットしてるのでconst 内の{props.title}を使うと「title="タイトル１"」が取得される
+・引き数にpropsを受け取るオブジェクトを引数に持つ
+・propsにセットできる数に制限はない
+・
+
+const Button = (props) => {　　　　
+  return (
+    <span className="Button-constructor">
+      {props.title}
+    </span>
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <h1>Hello,World!</h1>
+
+      <Button title="タイトル1" />
+      <Button title="タイトル2" />
+      <Button title="タイトル3" />
+    </div>
+  );
+}
+
+上記を貼り付けたらprops使用可能　　関数コンポーネント
+
+例）クラスコンポーネント
+・クラスコンポーネントでは「this」を経由してpropsの値を取得する
+
+class Button extends React.Component {
+  render() {
+    return (
+      <span className="Button-container">
+        {this.props.title}
+      </span>
+    );
+  }
+}
+
+function App() {
+  return (
+    <div>
+      <h1>Hello,World!</h1>
+
+      <Button title="タイトル1" />
+      <Button title="タイトル2" />
+      <Button title="タイトル3" />
+    </div>
+  );
+}
+
+----------------------------------------------------------
+・constructorを使う場合は「super(props)」を実行する必要あり
+class Button extends React.Component{
+    constructor(props){　　　　　　　　　　　　　　　　　　　　　　　　constructorは必ずsupur（props）を呼び出す  renderは別
+        super(props);
+    }
+render().......
+
+}
+------------------------------------------------------------
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+props.chilren　　　
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+コンポーネントの開始タグと終了タグに囲まれた範囲、全てを指す
+
+ex)
+<div>
+<Button>タイトル１</Button>
+<Button>タイトル２</Button>
+<Button>タイトル３</Button>
+
+上記を    const return内の{props.children}で受けとる
+※コンポーネントの開始タグと終了タグに囲まれた部分は「props.children」という特別なプロパティ名で取得できる
+{props.children}で「タイトル１」が取得できる
+
+
+クラスコンポーネントの場合は{this.props.children}でアクセス可能
+
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+関数コンポーネントの使い方
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+・戻り値としてJSXを返す関数を定義するだけ
+function App(この中にはprops、propschildrenを使う時だけ記述　それ以外は空欄でok、引数なしという){
+    return(
+    <div>
+        <h1>ハロー世界</h1>
+    </div>
+    );
+}
+
+
+~手順～
+1.Buttonのディレクトリにjsxとcssフォルダを作成
+2.jsxフォルダにて　import React from 'react'     //jsxを使う際に必要　
+                  import './Button.css';
+
+3.jsxにてButtonを定義　 const Button....
+4.export default Buttonで公開
+5.App.js側で　import Button from './components/Button/Button'; で読み取る
+ボタンディレクトリの中のボタンコンポーネントを読み込む
+6.App.jsのAppの定義の中の返り値returnの中でButtonを埋め込む。　返すため
+7.jsxにて　Buttonの定義の中で　className="Button"を定義し、cssを紐づける
+
+※Buttonは再利用できるコンポーネント
+
+/////////////////////////
+props経由で値を受け取る場合
+/////////////////////////
+
+
+1.jsxで（）の中にpropsを記述
+2.div内の要素に　{props.title}と記述  jsxの中で変数を転嫁したい場合は{}を付ける
+3.App.jsのpropsに実際に値を渡していく　　　<Button />  →　　<Button title="ボタン1" />
+
+App.JSのpropsとは？
+<Button />
+としている部分のこと
+
+
+//////////////////////////////
+props.childrenを使う場合
+//////////////////////////////
+
+App.jsの　<Button /> →　<Button></Button>に変更する　開始タグと終了タグの間を読み込む特別なpropsなので。
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+クラスコンポーネントの使い方
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+・クラスコンポーネントを作るには「React.Component」を継承する
+・クラスコンポーネントでJSXをページ上に表示させたい場合は[RENDER]を十そしてその戻り値としてJSXをセットする
+
+
+
+
+class Button extends React.component{
+    render(){
+        return(
+                .......
+        );
+    }
+}
+
+※クラスコンポーネントの方が関数コンポーネントよりも多くの機能を持っている　ex)state,ライフサイクルメソッド
+
+関数コンポーネントのreturn = クラスコンポーネントのrender
+
+==================
+State
+================
